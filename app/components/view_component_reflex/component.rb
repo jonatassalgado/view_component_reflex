@@ -57,7 +57,12 @@ module ViewComponentReflex
     end
 
     def self.stimulus_controller
-      name.chomp("Component").underscore.dasherize
+      stimulus_controller = name.chomp("Component").underscore.dasherize
+      if stimulus_controller.match(/(.+)?.\/.?(.+)/)
+        stimulus_controller.gsub(/\//, '--')
+      else
+        stimulus_controller
+      end
     end
 
     def stimulus_reflex?

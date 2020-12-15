@@ -54,7 +54,12 @@ module ViewComponentReflex
     end
 
     def selector
-      "[data-controller~=\"#{stimulus_controller}\"][data-key=\"#{element.dataset[:key]}\"]"
+      namespaced_controller = stimulus_controller.match(/(.+)?.\/.?(.+)/)
+      if namespaced_controller
+        "[data-controller~=\"#{stimulus_controller.gsub(/\//, '--')}\"][data-key=\"#{element.dataset[:key]}\"]"
+      else
+        "[data-controller~=\"#{stimulus_controller}\"][data-key=\"#{element.dataset[:key]}\"]"
+      end
     end
 
     # SR's delegate_call_to_reflex in channel.rb
